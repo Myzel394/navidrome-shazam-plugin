@@ -5,8 +5,8 @@
   "description": "Minimal lyrics provider that logs requests to the Navidrome console",
   "permissions": {
     "http": {
-      "reason": "Fetch metadata from external API",
-      "requiredHosts": ["api.example.com", "*.musicbrainz.org"]
+      "reason": "Fetch metadata from Shazam API",
+      "requiredHosts": ["www.shazam.com", "cdn.shazam.com"]
     }
   }
 }
