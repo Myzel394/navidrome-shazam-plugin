@@ -11,10 +11,10 @@ type Song struct {
 }
 
 func FetchLyrics(input lyrics.GetLyricsRequest) (lyrics.GetLyricsResponse, error) {
-	track := searchForTrack(input)
+	track, err := searchForTrack(input)
 
-	if track == nil {
-		return lyrics.GetLyricsResponse{}, nil
+	if err != nil || track == nil {
+		return lyrics.GetLyricsResponse{}, err
 	}
 
 	result, err := fetchLyricsForTrack(track)

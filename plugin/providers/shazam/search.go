@@ -10,8 +10,7 @@ import (
 )
 
 const (
-	searchCountry = "GB"
-	searchLimit   = 10
+	searchLimit = 10
 )
 
 // 0.85 threshold catches minor variations (remaster tags, punctuation)
@@ -40,9 +39,10 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 
 	// Primary: artist + track query.
 	query := normArtist + " " + normTitle
+	country := configSearchCountry()
 	endpoint := fmt.Sprintf(
 		"https://www.shazam.com/services/amapi/v1/catalog/%s/search?term=%s&types=songs&limit=%d",
-		searchCountry, url.QueryEscape(query), searchLimit,
+		country, url.QueryEscape(query), searchLimit,
 	)
 
 	body := utils.DoGetRequest(endpoint)
@@ -62,7 +62,7 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 	// Fallback: search track-only (sometimes short queries rank better).
 	endpointFallback := fmt.Sprintf(
 		"https://www.shazam.com/services/amapi/v1/catalog/%s/search?term=%s&types=songs&limit=%d",
-		searchCountry, url.QueryEscape(normTitle), searchLimit,
+		country, url.QueryEscape(normTitle), searchLimit,
 	)
 	bodyFallback := utils.DoGetRequest(endpointFallback)
 	if bodyFallback == nil {

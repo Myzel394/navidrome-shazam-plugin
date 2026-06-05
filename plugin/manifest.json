@@ -1,12 +1,28 @@
 {
-  "name": "Lyrics Scrape",
-  "author": "Myzel394",
-  "version": "0.1.0",
-  "description": "Minimal lyrics provider that logs requests to the Navidrome console",
-  "permissions": {
-    "http": {
-      "reason": "Fetch metadata from Shazam API",
-      "requiredHosts": ["www.shazam.com", "cdn.shazam.com"]
+    "name": "Lyrics Scrape",
+    "author": "Myzel394",
+    "version": "0.1.0",
+    "description": "Minimal lyrics provider that logs requests to the Navidrome console",
+    "permissions": {
+        "http": {
+            "reason": "Fetch metadata from Shazam API",
+            "requiredHosts": ["www.shazam.com", "cdn.shazam.com"]
+        }
+    },
+    "config": {
+        "schema": {
+            "type": "object",
+            "properties": {
+                "shazam": {
+                    "properties": {
+                        "shazam_search_country": {
+                            "type": "string",
+                            "default": "US",
+                            "description": "The country code to use when searching for lyrics on Shazam"
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
 }

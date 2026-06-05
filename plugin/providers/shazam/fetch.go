@@ -28,7 +28,7 @@ func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
 		return lyrics.GetLyricsResponse{}, err
 	}
 
-	pdk.Log(pdk.LogInfo, fmt.Sprintf("shazam lyrics: found lyrics for track ID %s; %s", track.ID, text))
+	pdk.Log(pdk.LogInfo, fmt.Sprintf("shazam lyrics: found lyrics for track ID %s", track.ID))
 
 	return lyrics.GetLyricsResponse{
 		Lyrics: []lyrics.LyricsText{
