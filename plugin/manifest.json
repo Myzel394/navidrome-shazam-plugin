@@ -1,0 +1,6 @@
+{
+  "name": "Lyrics Scrape",
+  "author": "Myzel394",
+  "version": "0.1.0",
+  "description": "Minimal lyrics provider that logs requests to the Navidrome console"
+}
