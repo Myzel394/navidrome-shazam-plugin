@@ -2,6 +2,9 @@ plugin_name := "navidrome-lyrics-scrape"
 data_dir    := "navidrome-instance/data"
 plugins_dir := data_dir / "plugins"
 
+username := "admin"
+password := "password"
+
 default:
     @just --list
 
@@ -33,4 +36,21 @@ test:
 [working-directory: "plugin"]
 clear:
     rm -f plugin.wasm {{plugin_name}}.ndp
+
+# Fetch lyrics via official SubSonic API for a random song
+fetch-lyrics:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    auth='u={{username}}&p={{password}}&v=1.16.0&c=test&f=json'
+    song_id=$(
+        curl -s "http://localhost:4533/rest/getRandomSongs?$auth" \
+        | jq -r '.["subsonic-response"].randomSongs.song[0].id'
+    )
+    lyrics=$(
+        curl -s "http://localhost:4533/rest/getLyricsBySongId?id=$song_id&$auth" \
+        | jq -r '.["subsonic-response"].lyricsList.structuredLyrics[0].line | map(.value) | join("\n")'
+    )
+
+    echo "$lyrics"
+
 

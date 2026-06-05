@@ -8,3 +8,5 @@ navidrome-instance
 .direnv
 
 plugin/plugin.wasm
+plugin/navidrome-lyrics-scrape.ndp
+
