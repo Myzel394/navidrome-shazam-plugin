@@ -1,0 +1,31 @@
+# Shazam Lyrics Plugin for Navidrome
+
+Scrapes lyrics from Shazam. No API key required.
+
+Since this plugin scrapes Shazam's website, this plugin may break often, please always download the lastest version to check if your issue is already fixed.
+
+## Installation
+
+1. Download `navidrome-shazam-plugin.ndp` from the [latest release](https://github.com/Myzel394/navidrome-shazam-plugin/releases/latest).
+2. Copy it to your Navidrome plugins folder (default: `<navidrome-data-directory>/plugins/`).
+3. Enable plugins in `navidrome.toml`:
+   ```toml
+   [Plugins]
+   Enabled = true
+   ```
+4. In Navidrome, go to **Settings > Plugins > Shazam Plugin** and toggle it on.
+
+## Configuration
+
+All settings are optional. The most relevant one — **Search Country** — defaults to `US`; set it to your country's ISO code for better results. Other settings (User-Agent, language, match threshold, etc.) live under **Advanced**.
+
+## Reporting Issues
+
+Before opening an [issue](https://github.com/Myzel394/navidrome-shazam-plugin/issues), grep your Navidrome logs and attach the matching lines:
+
+```sh
+grep navidrome-shazam-plugin /path/to/navidrome.log
+```
+
+Include the track (artist + title) that failed and your plugin version.
+
