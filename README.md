@@ -8,11 +8,7 @@ Since this plugin scrapes Shazam's website, this plugin may break often, please 
 
 1. Download `navidrome-shazam-plugin.ndp` from the [latest release](https://github.com/Myzel394/navidrome-shazam-plugin/releases/latest).
 2. Copy it to your Navidrome plugins folder (default: `<navidrome-data-directory>/plugins/`).
-3. Enable plugins in `navidrome.toml`:
-   ```toml
-   [Plugins]
-   Enabled = true
-   ```
+3. Add `navidrome-shazam-plugin` to the lyrics priority list (e.g. using envs: `ND_LYRICSPRIORITY=other-lyric-provider,navidrome-shazam-plugin`)
 4. In Navidrome, go to **Settings > Plugins > Shazam Plugin** and toggle it on.
 
 ## Configuration
