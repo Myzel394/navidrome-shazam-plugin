@@ -9,14 +9,6 @@ import (
 	"github.com/navidrome/navidrome/plugins/pdk/go/lyrics"
 )
 
-const (
-	searchLimit = 10
-)
-
-// 0.85 threshold catches minor variations (remaster tags, punctuation)
-// while rejecting completely different songs.
-const matchThreshold = 0.85
-
 type searchHit struct {
 	ID         string `json:"id"`
 	Attributes struct {
@@ -39,7 +31,8 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 
 	// Primary: artist + track query.
 	query := normArtist + " " + normTitle
-	country := configSearchCountry()
+	country := utils.ConfigSearchCountry()
+	searchLimit := utils.ConfigSearchLimit()
 	endpoint := fmt.Sprintf(
 		"https://www.shazam.com/services/amapi/v1/catalog/%s/search?term=%s&types=songs&limit=%d",
 		country, url.QueryEscape(query), searchLimit,
@@ -81,6 +74,8 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 // returns the Song with the highest combined Levenshtein ratio, provided
 // both individual ratios meet the minimum threshold.
 func pickBestMatch(hits []searchHit, normArtist, normTitle string) *Song {
+	matchThreshold := utils.ConfigSearchLevenshteinThreshold()
+
 	var bestSong *Song
 	var bestScore float64
 
