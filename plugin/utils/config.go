@@ -3,7 +3,7 @@ package utils
 import (
 	"strconv"
 
-	"github.com/extism/go-pdk"
+	"github.com/navidrome/navidrome/plugins/pdk/go/pdk"
 )
 
 // ConfigSearchCountry reads the configured Apple Music storefront country

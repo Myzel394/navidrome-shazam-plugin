@@ -5,8 +5,8 @@ import (
 	"net/url"
 
 	"github.com/Myzel394/navidrome-shazam-plugin/plugin/utils"
-	"github.com/extism/go-pdk"
 	"github.com/navidrome/navidrome/plugins/pdk/go/lyrics"
+	"github.com/navidrome/navidrome/plugins/pdk/go/pdk"
 )
 
 func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {

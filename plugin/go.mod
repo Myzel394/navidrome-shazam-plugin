@@ -2,10 +2,9 @@ module github.com/Myzel394/navidrome-shazam-plugin/plugin
 
 go 1.25.0
 
-require (
-	github.com/extism/go-pdk v1.1.3
-	golang.org/x/text v0.37.0
-)
+require golang.org/x/text v0.37.0
+
+require github.com/extism/go-pdk v1.1.3 // indirect
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

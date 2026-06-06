@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 
-	"github.com/extism/go-pdk"
+	"github.com/navidrome/navidrome/plugins/pdk/go/pdk"
 )
 
 func DoGetRequest(endpoint string) ([]byte, error) {
