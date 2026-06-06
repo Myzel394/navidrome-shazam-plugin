@@ -2,7 +2,7 @@
 
 Scrapes lyrics from Shazam. No API key required.
 
-Since this plugin scrapes Shazam's website, this plugin may break often, please always download the lastest version to check if your issue is already fixed.
+Since this plugin scrapes Shazam's website, this plugin may break often, please always download the latest version to check if your issue is already fixed.
 
 ## Installation
 
@@ -10,6 +10,8 @@ Since this plugin scrapes Shazam's website, this plugin may break often, please 
 2. Copy it to your Navidrome plugins folder (default: `<navidrome-data-directory>/plugins/`).
 3. Add `navidrome-shazam-plugin` to the lyrics priority list (e.g. using envs: `ND_LYRICSPRIORITY=other-lyric-provider,navidrome-shazam-plugin`)
 4. In Navidrome, go to **Settings > Plugins > Shazam Plugin** and toggle it on.
+
+It's recommended to set this plugin's priority to the lowest (i.e. last) position, as scraping is less reliable.
 
 ## Configuration
 
