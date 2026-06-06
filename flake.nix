@@ -99,6 +99,7 @@
             binaryen
 
             nixfmt-tree
+            pinact
           ];
         };
       }

@@ -11,6 +11,7 @@ import '.just/plugin.just'
 import '.just/dev.just'
 import '.just/prod.just'
 import '.just/test.just'
+import '.just/cicd.just'
 
 # ── Default ────────────────────────────────────────
 default:

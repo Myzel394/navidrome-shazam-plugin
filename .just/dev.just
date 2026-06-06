@@ -1,3 +1,5 @@
+#!/usr/bin/env just --justfile
+
 # Dev install: copies raw wasm + manifest to the plugins dir
 # without zipping. Faster iteration — no repacking needed.
 [group('dev')]

@@ -1,3 +1,5 @@
+#!/usr/bin/env just --justfile
+
 # Update go module dependencies
 [group('plugin'), working-directory: "plugin"]
 tidy:

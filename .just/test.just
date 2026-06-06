@@ -1,3 +1,5 @@
+#!/usr/bin/env just --justfile
+
 # Fetch lyrics for a random song via the Navidrome SubSonic API
 [group('test')]
 fetch-lyrics:

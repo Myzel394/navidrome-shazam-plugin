@@ -1,3 +1,5 @@
+#!/usr/bin/env just --justfile
+
 # Install the packed .ndp plugin into the local Navidrome instance.
 [group('prod')]
 install: 
