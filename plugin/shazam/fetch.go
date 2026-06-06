@@ -18,9 +18,9 @@ func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
 		track.ID, slug,
 	)
 
-	body := utils.DoGetRequest(endpoint)
-	if body == nil {
-		return lyrics.GetLyricsResponse{}, fmt.Errorf("shazam lyrics: failed to do shazam fetchLyrics request for track ID %s", track.ID)
+	body, err := utils.DoGetRequest(endpoint)
+	if err != nil || body == nil {
+		return lyrics.GetLyricsResponse{}, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam fetchLyrics request for track ID %s; Error: %v; Body: %v", track.ID, err, body)
 	}
 
 	text, err := extractLyricsFromHTML(string(body))
@@ -28,7 +28,7 @@ func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
 		return lyrics.GetLyricsResponse{}, err
 	}
 
-	pdk.Log(pdk.LogInfo, fmt.Sprintf("shazam lyrics: found lyrics for track ID %s", track.ID))
+	pdk.Log(pdk.LogInfo, fmt.Sprintf("navidrome-shazam-plugin: found lyrics for track ID %s", track.ID))
 
 	return lyrics.GetLyricsResponse{
 		Lyrics: []lyrics.LyricsText{

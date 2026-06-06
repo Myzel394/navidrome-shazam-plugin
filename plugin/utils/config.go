@@ -55,7 +55,7 @@ func ConfigSearchLimit() int {
 
 	limit, err := strconv.Atoi(v)
 	if err != nil {
-		pdk.Log(pdk.LogError, "shazam lyrics: failed to parse shazam_search_limit config value, defaulting to 10")
+		pdk.Log(pdk.LogError, "navidrome-shazam-plugin: failed to parse shazam_search_limit config value, defaulting to 10")
 		return 10
 	}
 
@@ -71,7 +71,7 @@ func ConfigSearchLevenshteinThreshold() float64 {
 
 	threshold, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		pdk.Log(pdk.LogError, "shazam lyrics: failed to parse shazam_search_levenshtein_threshold config value, defaulting to 0.85")
+		pdk.Log(pdk.LogError, "navidrome-shazam-plugin: failed to parse shazam_search_levenshtein_threshold config value, defaulting to 0.85")
 		return 0.85
 	}
 

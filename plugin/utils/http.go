@@ -1,10 +1,12 @@
 package utils
 
 import (
+	"fmt"
+
 	"github.com/extism/go-pdk"
 )
 
-func DoGetRequest(endpoint string) []byte {
+func DoGetRequest(endpoint string) ([]byte, error) {
 	acceptLanguage := ConfigSearchLanguage()
 	userAgent := ConfigUserAgent()
 	httpAcceptHeader := ConfigSearchHTTPAcceptHeader()
@@ -18,7 +20,7 @@ func DoGetRequest(endpoint string) []byte {
 
 	resp := req.Send()
 	if resp.Status() != 200 {
-		return nil
+		return resp.Body(), fmt.Errorf("navidrome-shazam-plugin: error code %d returned from Shazam for endpoint %s", resp.Status(), endpoint)
 	}
-	return resp.Body()
+	return resp.Body(), nil
 }

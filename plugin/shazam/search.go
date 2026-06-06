@@ -38,14 +38,14 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 		country, url.QueryEscape(query), searchLimit,
 	)
 
-	body := utils.DoGetRequest(endpoint)
-	if body == nil {
-		return nil, fmt.Errorf("shazam search: failed to do shazam search request for query %s", query)
+	body, err := utils.DoGetRequest(endpoint)
+	if err != nil || body == nil {
+		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for query %s; Error: %v; Body: %v", query, err, body)
 	}
 
 	var result searchResponse
 	if err := json.Unmarshal(body, &result); err != nil {
-		return nil, fmt.Errorf("shazam search: failed to parse shazam search response for query %s", query)
+		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to parse shazam search response for query %s", query)
 	}
 
 	if best := pickBestMatch(result.Results.Songs.Data, normArtist, normTitle); best != nil {
@@ -57,14 +57,14 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 		"https://www.shazam.com/services/amapi/v1/catalog/%s/search?term=%s&types=songs&limit=%d",
 		country, url.QueryEscape(normTitle), searchLimit,
 	)
-	bodyFallback := utils.DoGetRequest(endpointFallback)
-	if bodyFallback == nil {
-		return nil, fmt.Errorf("shazam search: failed to do shazam search request for fallback query %s", normTitle)
+	bodyFallback, err := utils.DoGetRequest(endpointFallback)
+	if err != nil || bodyFallback == nil {
+		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for fallback query %s; Error: %v; Body: %v", normTitle, err, bodyFallback)
 	}
 
 	var resultFallback searchResponse
 	if err := json.Unmarshal(bodyFallback, &resultFallback); err != nil {
-		return nil, fmt.Errorf("shazam search: failed to parse shazam search response for fallback query %s", normTitle)
+		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to parse shazam search response for fallback query %s", normTitle)
 	}
 
 	return pickBestMatch(resultFallback.Results.Songs.Data, normArtist, normTitle), nil
