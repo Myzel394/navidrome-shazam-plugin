@@ -2,6 +2,7 @@ package shazam
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/Myzel394/navidrome-shazam-plugin/plugin/utils"
 	"github.com/extism/go-pdk"
@@ -15,12 +16,12 @@ func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
 
 	endpoint := fmt.Sprintf(
 		"https://www.shazam.com/song/%s/%s",
-		track.ID, slug,
+		track.ID, url.PathEscape(slug),
 	)
 
 	body, err := utils.DoGetRequest(endpoint)
 	if err != nil || body == nil {
-		return lyrics.GetLyricsResponse{}, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam fetchLyrics request for track ID %s; Error: %v; Body: %v", track.ID, err, body)
+		return lyrics.GetLyricsResponse{}, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam fetchLyrics request for track ID %s; Error: %v", track.ID, err)
 	}
 
 	text, err := extractLyricsFromHTML(string(body))

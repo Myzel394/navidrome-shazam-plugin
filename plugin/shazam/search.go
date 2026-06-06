@@ -40,7 +40,7 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 
 	body, err := utils.DoGetRequest(endpoint)
 	if err != nil || body == nil {
-		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for query %s; Error: %v; Body: %v", query, err, body)
+		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for query %s; Error: %v", query, err)
 	}
 
 	var result searchResponse
@@ -59,7 +59,7 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 	)
 	bodyFallback, err := utils.DoGetRequest(endpointFallback)
 	if err != nil || bodyFallback == nil {
-		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for fallback query %s; Error: %v; Body: %v", normTitle, err, bodyFallback)
+		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for fallback query %s; Error: %v", normTitle, err)
 	}
 
 	var resultFallback searchResponse

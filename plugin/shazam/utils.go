@@ -14,7 +14,7 @@ var (
 	bracketsRe   = regexp.MustCompile(`[\(\[\{][^\)\]\}]*[\)\]\}]`)
 	dashSuffixRe = regexp.MustCompile(`(?i)\s*-\s*(remaster(ed)?|single version|live|deluxe|edit|mix|version|radio edit|extended).*$`)
 	whitespaceRe = regexp.MustCompile(`\s+`)
-	nonWordRe    = regexp.MustCompile(`[^a-z0-9\s-]`)
+	nonWordRe    = regexp.MustCompile(`[^\p{L}\p{N}\s-]`)
 	multiDashRe  = regexp.MustCompile(`-+`)
 )
 
