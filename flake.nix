@@ -76,7 +76,8 @@
                 ${plugin}/bin/plugin.wasm -o plugin.wasm
             jq -c . ${plugin}/share/manifest.json > manifest.json
 
-            zip -9 out.zip manifest.json plugin.wasm
+            touch -t 202001010000.00 manifest.json plugin.wasm
+            TZ=UTC zip -9 -X -D out.zip manifest.json plugin.wasm
             advzip -z -4 out.zip
           '';
 
