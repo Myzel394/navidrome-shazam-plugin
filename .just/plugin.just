@@ -5,7 +5,7 @@ tidy:
 
 # Format and vet all Go source
 [group('plugin'), working-directory: "plugin"]
-lint:
+lint-plugin:
     gofumpt -w .
 
 # Run project tests

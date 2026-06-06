@@ -15,3 +15,7 @@ import '.just/test.just'
 # ── Default ────────────────────────────────────────
 default:
     @just --list
+
+lint:
+    @just lint-plugin
+    treefmt .
