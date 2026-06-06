@@ -11,7 +11,7 @@ Since this plugin scrapes Shazam's website, this plugin may break often, please 
 3. Add `navidrome-shazam-plugin` to the lyrics priority list (e.g. using envs: `ND_LYRICSPRIORITY=other-lyric-provider,navidrome-shazam-plugin`)
 4. In Navidrome, go to **Settings > Plugins > Shazam Plugin** and toggle it on.
 
-It's recommended to set this plugin's priority to the lowest (i.e. last) position, as scraping is less reliable.
+It's recommended to set this plugin's priority to the lowest position, as scraping is less reliable than using an API.
 
 ## Configuration
 
