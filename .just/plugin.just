@@ -13,12 +13,6 @@ lint-plugin:
 test:
     go test ./...
 
-# Remove all build artifacts: wasm, ndp, zips, and the installed plugin.
-[group('plugin'), working-directory: "plugin"]
-clear:
-    rm -f plugin.wasm {{plugin_name}}.ndp *.zip
-    rm -f {{plugins_dir}}/plugin.wasm {{plugins_dir}}/manifest.json {{plugins_dir}}/{{plugin_name}}.ndp
-
 # Optimized production wasm build (small binary).
 [group('plugin'), working-directory: "plugin"]
 build:

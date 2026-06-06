@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Myzel394/navidrome-lyrics-scrape-plugin/plugin/shazam"
+	"github.com/Myzel394/navidrome-shazam-plugin/plugin/shazam"
 	"github.com/navidrome/navidrome/plugins/pdk/go/lyrics"
 )
 

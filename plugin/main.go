@@ -9,7 +9,7 @@ type plugin struct{}
 
 //go:wasmexport nd_on_init
 func ndOnInit() int32 {
-	pdk.Log(pdk.LogInfo, "Hello from navidrome-lyrics-scrape")
+	pdk.Log(pdk.LogInfo, "Hello from navidrome-shazam-plugin!")
 	return 0
 }
 

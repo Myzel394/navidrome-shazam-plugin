@@ -19,7 +19,7 @@
         "shazam_search_country": {
           "type": "string",
           "default": "US",
-          "description": "The country code to use when searching for lyrics on Shazam"
+          "description": "The country code to use when searching for lyrics on Shazam; You should set this to the country you are in for best results."
         }
       }
     }

@@ -7,7 +7,7 @@ navidrome-instance
 .devenv
 .direnv
 
-plugin/plugin.wasm
-plugin/navidrome-lyrics-scrape.ndp
+plugin/*.wasm
+plugin/*.ndp
 
 result

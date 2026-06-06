@@ -29,7 +29,15 @@
 
           buildPhase = ''
             export HOME=$(mktemp -d)
-            tinygo build -o plugin.wasm -target wasip1 -buildmode=c-shared .
+
+            tinygo build \
+                -target=wasip1 \
+                -buildmode=c-shared \
+                -opt=z \
+                -no-debug \
+                -panic=trap \
+                -gc=leaking \
+                -o plugin.wasm .
           '';
 
           installPhase = ''
@@ -57,7 +65,15 @@
           ];
 
           buildPhase = ''
-            wasm-opt ${plugin}/bin/plugin.wasm -Oz --strip-debug --strip-producers -o plugin.wasm
+            wasm-opt -Oz \
+                --strip-debug \
+                --strip-producers \
+                --strip-target-features \
+                --vacuum \
+                --dce \
+                --remove-unused-module-elements \
+                --converge \
+                ${plugin}/bin/plugin.wasm -o plugin.wasm
             jq -c . ${plugin}/share/manifest.json > manifest.json
 
             zip -9 out.zip manifest.json plugin.wasm
@@ -66,7 +82,7 @@
 
           installPhase = ''
             mkdir -p $out/bin
-            cp out.zip $out/bin/navidrome-shazam-plugin-${version}.ndp
+            cp out.zip $out/bin/navidrome-shazam-plugin.ndp
           '';
         };
 
