@@ -6,7 +6,6 @@ import (
 
 	"github.com/Myzel394/navidrome-shazam-plugin/plugin/utils"
 	"github.com/navidrome/navidrome/plugins/pdk/go/lyrics"
-	"github.com/navidrome/navidrome/plugins/pdk/go/pdk"
 )
 
 func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
@@ -14,14 +13,11 @@ func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
 	// becomes "never gonna give you up" → slug: "never-gonna-give-you-up"
 	slug := slugify(track.Title)
 
-	endpoint := fmt.Sprintf(
-		"https://www.shazam.com/song/%s/%s",
-		track.ID, url.PathEscape(slug),
-	)
+	endpoint := fmt.Sprintf(utils.ShazamFetchPageURL, track.ID, url.PathEscape(slug))
 
 	body, err := utils.DoGetRequest(endpoint)
 	if err != nil || body == nil {
-		return lyrics.GetLyricsResponse{}, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam fetchLyrics request for track ID %s; Error: %v", track.ID, err)
+		return lyrics.GetLyricsResponse{}, fmt.Errorf("failed to do shazam fetchLyrics request for track ID %s; Error: %v", track.ID, err)
 	}
 
 	text, err := extractLyricsFromHTML(string(body))
@@ -29,7 +25,7 @@ func fetchLyricsForTrack(track *Song) (lyrics.GetLyricsResponse, error) {
 		return lyrics.GetLyricsResponse{}, err
 	}
 
-	pdk.Log(pdk.LogInfo, fmt.Sprintf("navidrome-shazam-plugin: found lyrics for track ID %s", track.ID))
+	utils.LogInfof("found lyrics for track ID %s", track.ID)
 
 	return lyrics.GetLyricsResponse{
 		Lyrics: []lyrics.LyricsText{

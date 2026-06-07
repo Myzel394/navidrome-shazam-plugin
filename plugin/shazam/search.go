@@ -33,19 +33,16 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 	query := normArtist + " " + normTitle
 	country := utils.ConfigSearchCountry()
 	searchLimit := utils.ConfigSearchLimit()
-	endpoint := fmt.Sprintf(
-		"https://www.shazam.com/services/amapi/v1/catalog/%s/search?term=%s&types=songs&limit=%d",
-		country, url.QueryEscape(query), searchLimit,
-	)
+	endpoint := fmt.Sprintf(utils.ShazamSearchAPIURL, country, url.QueryEscape(query), searchLimit)
 
 	body, err := utils.DoGetRequest(endpoint)
 	if err != nil || body == nil {
-		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for query %s; Error: %v", query, err)
+		return nil, fmt.Errorf("failed to do shazam search request for query %s; Error: %v", query, err)
 	}
 
 	var result searchResponse
 	if err := json.Unmarshal(body, &result); err != nil {
-		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to parse shazam search response for query %s", query)
+		return nil, fmt.Errorf("failed to parse shazam search response for query %s", query)
 	}
 
 	if best := pickBestMatch(result.Results.Songs.Data, normArtist, normTitle); best != nil {
@@ -53,18 +50,15 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 	}
 
 	// Fallback: search track-only (sometimes short queries rank better).
-	endpointFallback := fmt.Sprintf(
-		"https://www.shazam.com/services/amapi/v1/catalog/%s/search?term=%s&types=songs&limit=%d",
-		country, url.QueryEscape(normTitle), searchLimit,
-	)
+	endpointFallback := fmt.Sprintf(utils.ShazamSearchAPIURL, country, url.QueryEscape(normTitle), searchLimit)
 	bodyFallback, err := utils.DoGetRequest(endpointFallback)
 	if err != nil || bodyFallback == nil {
-		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to do shazam search request for fallback query %s; Error: %v", normTitle, err)
+		return nil, fmt.Errorf("failed to do shazam search request for fallback query %s; Error: %v", normTitle, err)
 	}
 
 	var resultFallback searchResponse
 	if err := json.Unmarshal(bodyFallback, &resultFallback); err != nil {
-		return nil, fmt.Errorf("navidrome-shazam-plugin: failed to parse shazam search response for fallback query %s", normTitle)
+		return nil, fmt.Errorf("failed to parse shazam search response for fallback query %s", normTitle)
 	}
 
 	return pickBestMatch(resultFallback.Results.Songs.Data, normArtist, normTitle), nil

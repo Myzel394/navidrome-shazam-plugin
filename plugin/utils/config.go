@@ -6,28 +6,26 @@ import (
 	"github.com/navidrome/navidrome/plugins/pdk/go/pdk"
 )
 
-// ConfigSearchCountry reads the configured Apple Music storefront country
-// from Navidrome's plugin config, defaulting to "GB".
 func ConfigSearchCountry() string {
-	v, ok := pdk.GetConfig("shazam_search_country")
+	v, ok := pdk.GetConfig(ConfigKeySearchCountry)
 	if !ok || v == "" {
-		return "US"
+		return DefaultSearchCountry
 	}
 	return v
 }
 
 func ConfigSearchLanguage() string {
-	v, ok := pdk.GetConfig("shazam_language")
+	v, ok := pdk.GetConfig(ConfigKeySearchLanguage)
 
 	if !ok || v == "" {
-		return "en"
+		return DefaultSearchLanguage
 	}
 
 	return v
 }
 
 func ConfigShazamCookie() string {
-	v, ok := pdk.GetConfig("shazam_cookie")
+	v, ok := pdk.GetConfig(ConfigKeyCookie)
 
 	if !ok || v == "" {
 		return ""
@@ -37,52 +35,52 @@ func ConfigShazamCookie() string {
 }
 
 func ConfigSearchHTTPAcceptHeader() string {
-	v, ok := pdk.GetConfig("shazam_http_accept")
+	v, ok := pdk.GetConfig(ConfigKeyHTTPAccept)
 
 	if !ok || v == "" {
-		return "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8"
+		return DefaultHTTPAccept
 	}
 
 	return v
 }
 
 func ConfigSearchLimit() int {
-	v, ok := pdk.GetConfig("shazam_search_limit")
+	v, ok := pdk.GetConfig(ConfigKeySearchLimit)
 
 	if !ok || v == "" {
-		return 10
+		return DefaultSearchLimit
 	}
 
 	limit, err := strconv.Atoi(v)
 	if err != nil {
-		pdk.Log(pdk.LogError, "navidrome-shazam-plugin: failed to parse shazam_search_limit config value, defaulting to 10")
-		return 10
+		LogErrorf("failed to parse %s config value, defaulting to %d", ConfigKeySearchLimit, DefaultSearchLimit)
+		return DefaultSearchLimit
 	}
 
 	return limit
 }
 
 func ConfigSearchLevenshteinThreshold() float64 {
-	v, ok := pdk.GetConfig("shazam_search_levenshtein_threshold")
+	v, ok := pdk.GetConfig(ConfigKeyLevenshteinThreshold)
 
 	if !ok || v == "" {
-		return 0.85
+		return DefaultLevenshteinThreshold
 	}
 
 	threshold, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		pdk.Log(pdk.LogError, "navidrome-shazam-plugin: failed to parse shazam_search_levenshtein_threshold config value, defaulting to 0.85")
-		return 0.85
+		LogErrorf("failed to parse %s config value, defaulting to %v", ConfigKeyLevenshteinThreshold, DefaultLevenshteinThreshold)
+		return DefaultLevenshteinThreshold
 	}
 
 	return threshold
 }
 
 func ConfigUserAgent() string {
-	v, ok := pdk.GetConfig("shazam_user_agent")
+	v, ok := pdk.GetConfig(ConfigKeyUserAgent)
 
 	if !ok || v == "" {
-		return "Mozilla/5.0 (iPhone; CPU iPhone OS 17_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1"
+		return DefaultUserAgent
 	}
 
 	return v

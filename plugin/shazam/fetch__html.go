@@ -27,19 +27,19 @@ func extractLyricsFromHTML(html string) (string, error) {
 	// Find the script tag containing the lyrics JSON
 	startIdx := strings.Index(html, startOfScript)
 	if startIdx == -1 {
-		return "", fmt.Errorf("navidrome-shazam-plugin: could not find start of lyrics script tag")
+		return "", fmt.Errorf("could not find start of lyrics script tag")
 	}
 
 	endIdx := strings.Index(html[startIdx:], endOfScript)
 	if endIdx == -1 {
-		return "", fmt.Errorf("navidrome-shazam-plugin: could not find end of lyrics script tag")
+		return "", fmt.Errorf("could not find end of lyrics script tag")
 	}
 
 	scriptContent := html[startIdx+len(startOfScript) : startIdx+endIdx]
 
 	var songInfo songInfoJSON
 	if err := json.Unmarshal([]byte(scriptContent), &songInfo); err != nil {
-		return "", fmt.Errorf("navidrome-shazam-plugin: failed to parse lyrics JSON: %v; %v", err, scriptContent)
+		return "", fmt.Errorf("failed to parse lyrics JSON: %v; %v", err, scriptContent)
 	}
 
 	lyricsText := songInfo.RecordingOf.Lyrics.Text
@@ -48,5 +48,5 @@ func extractLyricsFromHTML(html string) (string, error) {
 		return lyricsText, nil
 	}
 
-	return "", fmt.Errorf("navidrome-shazam-plugin: lyrics text not found in JSON")
+	return "", fmt.Errorf("lyrics text not found in JSON")
 }

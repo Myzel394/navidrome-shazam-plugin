@@ -19,8 +19,8 @@ func DoGetRequest(endpoint string) ([]byte, error) {
 	req.SetHeader("Cookie", shazamCookie)
 
 	resp := req.Send()
-	if resp.Status() != 200 {
-		return resp.Body(), fmt.Errorf("navidrome-shazam-plugin: error code %d returned from Shazam for endpoint %s", resp.Status(), endpoint)
+	if resp.Status() != HTTPStatusOK {
+		return resp.Body(), fmt.Errorf("error code %d returned from Shazam for endpoint %s", resp.Status(), endpoint)
 	}
 	return resp.Body(), nil
 }
