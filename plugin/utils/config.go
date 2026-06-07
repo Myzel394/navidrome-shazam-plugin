@@ -6,47 +6,37 @@ import (
 	"github.com/navidrome/navidrome/plugins/pdk/go/pdk"
 )
 
-func ConfigSearchCountry() string {
-	v, ok := pdk.GetConfig(ConfigKeySearchCountry)
+func getConfigString(key, def string) string {
+	v, ok := pdk.GetConfig(key)
 	if !ok || v == "" {
-		return DefaultSearchCountry
+		return def
 	}
 	return v
+}
+
+func ConfigSearchCountry() string {
+	return getConfigString(ConfigKeySearchCountry, DefaultSearchCountry)
 }
 
 func ConfigSearchLanguage() string {
-	v, ok := pdk.GetConfig(ConfigKeySearchLanguage)
-
-	if !ok || v == "" {
-		return DefaultSearchLanguage
-	}
-
-	return v
+	return getConfigString(ConfigKeySearchLanguage, DefaultSearchLanguage)
 }
 
 func ConfigShazamCookie() string {
-	v, ok := pdk.GetConfig(ConfigKeyCookie)
-
-	if !ok || v == "" {
-		return ""
-	}
-
+	v, _ := pdk.GetConfig(ConfigKeyCookie)
 	return v
 }
 
 func ConfigSearchHTTPAcceptHeader() string {
-	v, ok := pdk.GetConfig(ConfigKeyHTTPAccept)
+	return getConfigString(ConfigKeyHTTPAccept, DefaultHTTPAccept)
+}
 
-	if !ok || v == "" {
-		return DefaultHTTPAccept
-	}
-
-	return v
+func ConfigUserAgent() string {
+	return getConfigString(ConfigKeyUserAgent, DefaultUserAgent)
 }
 
 func ConfigSearchLimit() int {
 	v, ok := pdk.GetConfig(ConfigKeySearchLimit)
-
 	if !ok || v == "" {
 		return DefaultSearchLimit
 	}
@@ -62,7 +52,6 @@ func ConfigSearchLimit() int {
 
 func ConfigSearchLevenshteinThreshold() float64 {
 	v, ok := pdk.GetConfig(ConfigKeyLevenshteinThreshold)
-
 	if !ok || v == "" {
 		return DefaultLevenshteinThreshold
 	}
@@ -74,14 +63,4 @@ func ConfigSearchLevenshteinThreshold() float64 {
 	}
 
 	return threshold
-}
-
-func ConfigUserAgent() string {
-	v, ok := pdk.GetConfig(ConfigKeyUserAgent)
-
-	if !ok || v == "" {
-		return DefaultUserAgent
-	}
-
-	return v
 }

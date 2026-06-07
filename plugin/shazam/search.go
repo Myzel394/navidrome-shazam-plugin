@@ -25,14 +25,7 @@ type searchResponse struct {
 	} `json:"results"`
 }
 
-func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
-	normArtist := normalize(input.Track.Artist)
-	normTitle := normalize(input.Track.Title)
-
-	// Primary: artist + track query.
-	query := normArtist + " " + normTitle
-	country := utils.ConfigSearchCountry()
-	searchLimit := utils.ConfigSearchLimit()
+func doSearch(query, country string, searchLimit int) ([]searchHit, error) {
 	endpoint := fmt.Sprintf(utils.ShazamSearchAPIURL, country, url.QueryEscape(query), searchLimit)
 
 	body, err := utils.DoGetRequest(endpoint)
@@ -42,26 +35,33 @@ func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
 
 	var result searchResponse
 	if err := json.Unmarshal(body, &result); err != nil {
-		return nil, fmt.Errorf("failed to parse shazam search response for query %s", query)
+		return nil, fmt.Errorf("failed to parse shazam search response for query %s: %v", query, err)
 	}
 
-	if best := pickBestMatch(result.Results.Songs.Data, normArtist, normTitle); best != nil {
+	return result.Results.Songs.Data, nil
+}
+
+func searchForTrack(input lyrics.GetLyricsRequest) (*Song, error) {
+	normArtist := normalize(input.Track.Artist)
+	normTitle := normalize(input.Track.Title)
+	country := utils.ConfigSearchCountry()
+	searchLimit := utils.ConfigSearchLimit()
+
+	// Primary: artist + track query.
+	hits, err := doSearch(normArtist+" "+normTitle, country, searchLimit)
+	if err != nil {
+		return nil, err
+	}
+	if best := pickBestMatch(hits, normArtist, normTitle); best != nil {
 		return best, nil
 	}
 
 	// Fallback: search track-only (sometimes short queries rank better).
-	endpointFallback := fmt.Sprintf(utils.ShazamSearchAPIURL, country, url.QueryEscape(normTitle), searchLimit)
-	bodyFallback, err := utils.DoGetRequest(endpointFallback)
-	if err != nil || bodyFallback == nil {
-		return nil, fmt.Errorf("failed to do shazam search request for fallback query %s; Error: %v", normTitle, err)
+	hits, err = doSearch(normTitle, country, searchLimit)
+	if err != nil {
+		return nil, err
 	}
-
-	var resultFallback searchResponse
-	if err := json.Unmarshal(bodyFallback, &resultFallback); err != nil {
-		return nil, fmt.Errorf("failed to parse shazam search response for fallback query %s", normTitle)
-	}
-
-	return pickBestMatch(resultFallback.Results.Songs.Data, normArtist, normTitle), nil
+	return pickBestMatch(hits, normArtist, normTitle), nil
 }
 
 // pickBestMatch scores every hit against the normalized artist/title and
