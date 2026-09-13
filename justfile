@@ -1,5 +1,5 @@
 # ── Shared variables ───────────────────────────────
-plugin_name := "navidrome-shazam"
+plugin_name := "navidrome-shazam-plugin"
 data_dir    := "navidrome-instance/data"
 plugins_dir := data_dir / "plugins"
 
