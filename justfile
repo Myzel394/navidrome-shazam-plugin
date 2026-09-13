@@ -18,6 +18,3 @@ import '.just/release.just'
 default:
     @just --list
 
-lint:
-    @just lint-plugin
-    treefmt .
