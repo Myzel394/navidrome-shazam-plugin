@@ -15,7 +15,7 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        version = "0.1.0";
+        version = "0.1.1";
         pkgs = import nixpkgs { inherit system; };
         plugin = pkgs.buildGo125Module {
           pname = "navidrome-shazam-plugin";
@@ -23,7 +23,7 @@
 
           src = ./plugin;
 
-          vendorHash = "sha256-yFPWnIFMB9NeCDu3Km5WwfG3iLpnh/gBUa9dh8+QHFY=";
+          vendorHash = "sha256-DcsE8fLyAk7N7/95SdJglSAduc0THbVtPthtMogDVv4=";
 
           nativeBuildInputs = [ pkgs.tinygo ];
 

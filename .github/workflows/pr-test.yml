@@ -1,0 +1,71 @@
+name: PR Dev Build
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31.10.6
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Check formatting
+        run: |
+          nix develop -c just format
+
+          if ! git diff --exit-code; then
+            echo "::error::Formatting changes are required. Run 'just format' locally and commit the result."
+            exit 1
+          fi
+
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31.10.6
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Run go vet
+        run: nix develop -c just lint
+
+  build-dev:
+    needs:
+      - format
+      - vet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+
+      - uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31.10.6
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Create dev release package
+        run: nix develop -c just create-dev-release
+
+      - name: Stage artifact
+        run: |
+          mkdir -p dist
+          cp plugin/navidrome-shazam-plugin.ndp dist/navidrome-shazam-plugin-dev.ndp
+          sha256sum dist/navidrome-shazam-plugin-dev.ndp | tee dist/navidrome-shazam-plugin-dev.ndp.sha256
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: navidrome-shazam-plugin-dev-pr-${{ github.event.pull_request.number }}
+          path: |
+            dist/navidrome-shazam-plugin-dev.ndp
+            dist/navidrome-shazam-plugin-dev.ndp.sha256
