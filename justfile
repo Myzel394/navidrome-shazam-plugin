@@ -1,18 +1,15 @@
 # ── Shared variables ───────────────────────────────
-plugin_name := "navidrome-shazam-plugin"
+plugin_name := "navidrome-shazam"
 data_dir    := "navidrome-instance/data"
 plugins_dir := data_dir / "plugins"
 
-username := "admin"
-password := "password"
+set dotenv-load := true
 
 # ── Imports ────────────────────────────────────────
-import '.just/plugin.just'
-import '.just/dev.just'
-import '.just/prod.just'
-import '.just/test.just'
-import '.just/cicd.just'
-import '.just/release.just'
+import 'just/build.just'
+import 'just/dev.just'
+import 'just/test.just'
+import 'just/release.just'
 
 # ── Default ────────────────────────────────────────
 default:
